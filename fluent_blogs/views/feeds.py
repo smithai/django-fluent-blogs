@@ -118,7 +118,7 @@ class EntryFeedBase(FeedView):
         return entry.author.email if entry.author else None
 
     def item_author_link(self, entry):
-        return self.reverse('entry_archive_author', kwargs={'slug': entry.author.username}) if entry.author else None
+        return self.reverse('entry_archive_author', kwargs={'author_id': entry.author.pk, 'slug': entry.author.username}) if entry.author else None
 
     def item_categories(self, entry):
         return [category.name for category in entry.categories.all()]
@@ -174,9 +174,9 @@ class LatestAuthorEntriesFeed(EntryFeedBase):
     Feed for the latest entries with a author.
     """
 
-    def get_object(self, request, slug):
+    def get_object(self, request, author_id):
         User = get_user_model()
-        return get_object_or_404(User, username=slug)
+        return get_object_or_404(User, pk=author_id)
 
     def items(self, author):
         return get_entry_queryset().filter(author=author)[:_max_items]
@@ -191,7 +191,7 @@ class LatestAuthorEntriesFeed(EntryFeedBase):
         return gettext(u"The latest entries written by {author_name}").format(author_name=author.get_full_name())
 
     def link(self, author):
-        return self.reverse('entry_archive_author', kwargs={'slug': author.username})
+        return self.reverse('entry_archive_author', kwargs={'author_id': author.pk, 'slug': author.username})
 
 
 class LatestTagEntriesFeed(EntryFeedBase):

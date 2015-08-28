@@ -185,7 +185,7 @@ class EntryAuthorArchive(BaseArchiveMixin, ArchiveIndexView):
     context_object_name = 'author'
 
     def get_queryset(self):
-        self.author = get_object_or_404(get_user_model(), username=self.kwargs['slug'])
+        self.author = get_object_or_404(get_user_model(), pk=self.kwargs['author_id'])
         return super(EntryAuthorArchive, self).get_queryset().filter(author=self.author)
 
 

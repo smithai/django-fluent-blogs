@@ -14,7 +14,7 @@
     {{ block.super }}
     {% if category %}<link rel="alternate" type="application/rss+xml" title="{% blocktrans with category=category %}RSS Feed for {{ category }}{% endblocktrans %}" href="{% blogurl 'entry_archive_category_rss' category.slug %}" />{% endif %}
     {% if tag %}<link rel="alternate" type="application/rss+xml" title="{% blocktrans with tag=tag %}RSS Feed for {{ tag }}{% endblocktrans %}" href="{% blogurl 'entry_archive_tag_rss' tag.slug %}" />{% endif %}
-    {% if author %}<link rel="alternate" type="application/rss+xml" title="{% blocktrans with author_name=author.get_full_name|default:author.username %}RSS Feed for {{ author_name }}{% endblocktrans %}" href="{% blogurl 'entry_archive_author_rss' author.username %}" />{% endif %}
+    {% if author %}<link rel="alternate" type="application/rss+xml" title="{% blocktrans with author_name=author.get_full_name|default:author.username %}RSS Feed for {{ author_name }}{% endblocktrans %}" href="{% blogurl 'entry_archive_author_rss' author.pk author.username %}" />{% endif %}
 {% endblock %}
 
 {% block title %}

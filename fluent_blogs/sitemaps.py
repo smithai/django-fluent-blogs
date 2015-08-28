@@ -62,7 +62,7 @@ class AuthorArchiveSitemap(Sitemap):
 
     def location(self, author):
         """Return url of an entry."""
-        return blog_reverse('entry_archive_author', kwargs={'slug': author.username}, ignore_multiple=True)
+        return blog_reverse('entry_archive_author', kwargs={'author_id': author.pk, 'slug': author.username}, ignore_multiple=True)
 
 
 class TagArchiveSitemap(Sitemap):
