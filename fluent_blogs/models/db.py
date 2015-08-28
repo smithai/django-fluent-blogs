@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import get_model
+from django.apps import apps
 from django.utils.translation import ugettext_lazy as _
 from fluent_blogs.base_models import CommentsEntryMixin, AbstractTranslatableEntry, AbstractTranslatedFieldsEntry
 from fluent_blogs import appsettings
@@ -56,7 +56,7 @@ def get_entry_model():
             _EntryModel = Entry
         else:
             app_label, model_name = appsettings.FLUENT_BLOGS_ENTRY_MODEL.rsplit('.', 1)
-            _EntryModel = get_model(app_label, model_name)
+            _EntryModel = apps.get_model(app_label, model_name)
 
         # Auto-register with django-fluent-comments moderation
         if 'fluent_comments' in settings.INSTALLED_APPS and issubclass(_EntryModel, CommentsEntryMixin):
@@ -82,4 +82,4 @@ def get_category_model():
     This function reads the :ref:`FLUENT_BLOGS_CATEGORY_MODEL` setting to find the model.
     """
     app_label, model_name = appsettings.FLUENT_BLOGS_CATEGORY_MODEL.rsplit('.', 1)
-    return get_model(app_label, model_name)
+    return apps.get_model(app_label, model_name)
