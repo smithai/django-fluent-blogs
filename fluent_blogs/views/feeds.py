@@ -174,6 +174,9 @@ class LatestAuthorEntriesFeed(EntryFeedBase):
     Feed for the latest entries with a author.
     """
 
+    def get(self, request, *args, **kwargs):
+        return self.__call__(request, *args, author_id=kwargs['author_id'])
+
     def get_object(self, request, author_id):
         User = get_user_model()
         return get_object_or_404(User, pk=author_id)
