@@ -21,7 +21,7 @@ class EntryAdmin(SeoEntryAdminMixin, _entry_admin_base):
     """
     # Redefine the fieldset, because it will be extended with auto-detected fields.
     FIELDSET_GENERAL = (None, {
-        'fields': ('title', 'slug', 'status',),  # is filled with ('intro', 'contents', 'categories', 'tags', 'enable_comments') below
+        'fields': ('title', 'slug', 'status', 'parent_site'),  # is filled with ('intro', 'contents', 'categories', 'tags', 'enable_comments') below
     })
 
     # For Django 1.4, the fieldsets shouldn't be declared with 'fieldsets ='
