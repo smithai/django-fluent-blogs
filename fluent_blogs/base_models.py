@@ -42,7 +42,7 @@ __all__ = (
 
 
 def _get_current_site():
-    return Site.objects.get_current().pk
+    return 1
 
 
 class AbstractTranslatedFieldsEntryBaseMixin(models.Model):
