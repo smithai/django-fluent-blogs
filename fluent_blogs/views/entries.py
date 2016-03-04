@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import translation
+from django.utils.module_loading import import_string
 from django.views.generic.base import RedirectView
 from django.views.generic.dates import DayArchiveView, MonthArchiveView, YearArchiveView, ArchiveIndexView
 from django.views.generic.detail import DetailView, SingleObjectMixin
@@ -36,7 +37,15 @@ class BaseBlogMixin(CurrentPageMixin):
 
     def get_context_data(self, **kwargs):
         context = super(BaseBlogMixin, self).get_context_data(**kwargs)
-        context['FLUENT_BLOGS_BASE_TEMPLATE'] = appsettings.FLUENT_BLOGS_BASE_TEMPLATE
+        base_template = appsettings.FLUENT_BLOGS_BASE_TEMPLATE
+        base_template_callback = appsettings.FLUENT_BLOGS_BASE_TEMPLATE_CALLBACK
+        if base_template_callback:
+            try:
+                callback = import_string(base_template_callback)
+                base_template = callback(self.request)
+            except ImportError:
+                pass
+        context['FLUENT_BLOGS_BASE_TEMPLATE'] = base_template
         context['HAS_DJANGO_FLUENT_COMMENTS'] = 'fluent_comments' in settings.INSTALLED_APPS
         context['FLUENT_BLOGS_INCLUDE_STATIC_FILES'] = appsettings.FLUENT_BLOGS_INCLUDE_STATIC_FILES
         if self.context_object_name:

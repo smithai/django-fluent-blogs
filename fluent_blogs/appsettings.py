@@ -10,6 +10,7 @@ FLUENT_BLOGS_ENTRY_LINK_STYLE = getattr(settings, "FLUENT_BLOGS_ENTRY_LINK_STYLE
 # Advanced settings
 FLUENT_BLOGS_FILTER_SITE_ID = getattr(settings, 'FLUENT_BLOGS_FILTER_SITE_ID', True)
 FLUENT_BLOGS_BASE_TEMPLATE = getattr(settings, "FLUENT_BLOGS_BASE_TEMPLATE", 'fluent_blogs/base.html')
+FLUENT_BLOGS_BASE_TEMPLATE_CALLBACK = getattr(settings, "FLUENT_BLOGS_BASE_TEMPLATE_CALLBACK", None)
 FLUENT_BLOGS_CATEGORY_MODEL = getattr(settings, "FLUENT_BLOGS_CATEGORY_MODEL", 'categories.Category')
 FLUENT_BLOGS_ENTRY_MODEL = getattr(settings, "FLUENT_BLOGS_ENTRY_MODEL", 'fluent_blogs.Entry')
 
