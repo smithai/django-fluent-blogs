@@ -22,7 +22,8 @@ class BaseBlogMixin(CurrentPageMixin):
 
     def get_queryset(self):
         # NOTE: This is also workaround, defining the queryset static somehow caused results to remain cached.
-        qs = get_entry_model().objects.published()
+        qs = get_entry_model().objects.filter(parent_site=self.request.site)
+        qs = qs.published()
         if self.prefetch_translations:
             qs = qs.prefetch_related('translations')
         return qs
