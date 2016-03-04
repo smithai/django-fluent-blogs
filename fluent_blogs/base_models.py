@@ -41,6 +41,10 @@ __all__ = (
 )
 
 
+def _get_current_site():
+    return Site.objects.get_current().pk
+
+
 class AbstractTranslatedFieldsEntryBaseMixin(models.Model):
     """
     The base translated fields.
