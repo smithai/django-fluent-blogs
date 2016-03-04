@@ -22,9 +22,9 @@ __all__ = (
     'LatestEntriesFeed', 'LatestCategoryEntriesFeed', 'LatestAuthorEntriesFeed', 'LatestTagEntriesFeed'
 )
 
-def get_entry_queryset():
+def get_entry_queryset(site):
     # Avoid being cached at module level, always return a new queryset.
-    return get_entry_model().objects.published().active_translations().order_by('-publication_date')
+    return get_entry_model().objects.filter(parent_site=site).published().active_translations().order_by('-publication_date')
 
 _max_items = appsettings.FLUENT_BLOGS_MAX_FEED_ITEMS
 
@@ -59,7 +59,7 @@ class EntryFeedBase(FeedView):
     Base class for all feeds returning blog entries.
     """
     def items(self, object=None):
-        return get_entry_queryset()[:_max_items]
+        return get_entry_queryset(self.request.site)[:_max_items]
 
 
     def reverse(self, viewname, args=None, kwargs=None):
@@ -154,7 +154,7 @@ class LatestCategoryEntriesFeed(EntryFeedBase):
         return get_object_or_404(Category, slug=slug)
 
     def items(self, category):
-        return get_entry_queryset().filter(categories=category)[:_max_items]
+        return get_entry_queryset(self.request.site).filter(categories=category)[:_max_items]
 
     def title(self, category):
         return gettext(u"Entries in the category {category_name}").format(category_name=category.name)
@@ -182,7 +182,7 @@ class LatestAuthorEntriesFeed(EntryFeedBase):
         return get_object_or_404(User, pk=author_id)
 
     def items(self, author):
-        return get_entry_queryset().filter(author=author)[:_max_items]
+        return get_entry_queryset(self.request.site).filter(author=author)[:_max_items]
 
     def title(self, author):
         return gettext(u"Entries by {author_name}").format(author_name=author.get_full_name())
@@ -207,7 +207,7 @@ class LatestTagEntriesFeed(EntryFeedBase):
         return get_object_or_404(Tag, slug=slug)
 
     def items(self, tag):
-        return get_entry_queryset().filter(tags=tag)[:_max_items]
+        return get_entry_queryset(self.request.site).filter(tags=tag)[:_max_items]
 
     def title(self, tag):
         return gettext(u"Entries for the tag {tag_name}").format(tag_name=tag.name)
