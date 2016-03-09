@@ -1,3 +1,11 @@
+Version 1.0.1.1 (2016-03-06)
+----------------------------
+
+* Allow to filter by parent_site in the get_entries and get_categories templatetags
+* Filter entries by parent_site
+* Allow changing the parent_site from Django admin UI
+
+
 Version 1.0.1 (2015-08-19)
 --------------------------
 
