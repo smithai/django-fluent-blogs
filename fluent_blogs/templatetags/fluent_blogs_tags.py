@@ -142,7 +142,7 @@ class GetEntriesNode(BlogAssignmentOrInclusionNode):
     allowed_kwargs = (
         'category', 'tag', 'author',
         'year', 'month', 'day',
-        'orderby', 'order', 'limit',
+        'orderby', 'order', 'limit', 'parent_site',
     )
     model = get_entry_model()
 
@@ -215,12 +215,16 @@ class GetCategoriesNode(BlogAssignmentOrInclusionNode):
     template_name = "fluent_blogs/templatetags/entries.html"
     context_value_name = 'entries'
     allowed_kwargs = (
-        'orderby', 'order', 'limit',
+        'orderby', 'order', 'limit', 'parent_site',
     )
     model = get_category_model()
 
     def get_value(self, context, *tag_args, **tag_kwargs):
-        only_ids = GetEntriesNode.model.objects.published().values('categories').order_by().distinct()
+        queryset = GetEntriesNode.model.objects.published()
+        if 'parent_site' in tag_kwargs:
+            queryset = queryset.filter(parent_site=tag_kwargs['parent_site'])
+
+        only_ids = queryset.values('categories').order_by().distinct()
         qs = self.model.objects.filter(id__in=only_ids)
         return qs
 

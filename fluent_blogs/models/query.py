@@ -69,6 +69,7 @@ def query_entries(queryset=None,
         order=None,
         orderby=None,
         limit=None,
+        parent_site=None,
     ):
     """
     Query the entries using a set of predefined filters.
@@ -121,6 +122,8 @@ def query_entries(queryset=None,
     if author_slug:
         queryset = queryset.filter(author__username=author_slug)
 
+    if parent_site:
+        queryset = queryset.filter(parent_site=parent_site)
 
     # Ordering
     if orderby:
