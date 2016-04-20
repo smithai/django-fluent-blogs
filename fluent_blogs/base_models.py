@@ -50,7 +50,7 @@ class AbstractTranslatedFieldsEntryBaseMixin(models.Model):
     The base translated fields.
     """
     title = models.CharField(_("Title"), max_length=200)
-    slug = models.SlugField(_("Slug"))
+    slug = models.SlugField(_("Slug"), max_length=100)
 
     class Meta:
         abstract = True
